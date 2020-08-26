@@ -2,7 +2,15 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 require('dotenv').config();
-const tasks = [{taskID:1, text:"create proper structure", pomodoros:2, completed:false}];
+
+const tasks = [
+  {
+    taskID:1,
+    text:"create proper structure",
+    pomodoros:2,
+    completed:false
+  }
+];
 
 const app = express();
 app.use(express.json());
@@ -10,7 +18,7 @@ const port = process.env.PORT;
 app.set('view engine','pug');
 
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.use(helmet());
 app.use(morgan('tiny'));
 
