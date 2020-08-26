@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -34,6 +35,12 @@ app.get('/',(req, res) => {
   } )
 
   app.post('/api/tasks', (req, res) => {
+    const schema = {
+      text:Joi.string().required()
+    }
+    const result = Joi.validate(req.body, schema);
+    console.log(result)
+
     const newtask = {
       //id to be assigned by database eventually
       taskID:tasks.length + 1,
