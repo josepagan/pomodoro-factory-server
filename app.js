@@ -6,12 +6,20 @@ require('dotenv').config();
 
 const tasks = [
   {
-    taskID:1,
+    id: 1,
     text:"create proper structure",
-    pomodoros:2,
-    completed:false
+    pomodoros: 2,
+    completed: false
   }
 ];
+
+const validateCourse = (body) => {
+  const schema = Joi.object({
+    text: Joi.string().required()
+  })
+  return schema.validate(body)
+}
+
 
 const app = express();
 app.use(express.json());
@@ -30,28 +38,39 @@ app.get('/',(req, res) => {
   });
 
 });
+
 app.get('/api/tasks', (req, res) => {
   res.send(tasks)
-} )
+})
+
+app.get('/api/tasks/:id', (req,res) => {
+  const task = tasks.find(t=> t.id === parseInt( req.params.id ))
+  res.send(task || "task not found")
+})
+
+//this put request only changes the name, what if we have to change something else
+app.put('/api/tasks/:id', (req,res) => {
+  const task = tasks.find(t=> t.id === parseInt( req.params.id ))
+
+  const { error } =  validateCourse(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  task.name = req.body.name;
+  
+  res.send(task || "task not found")
+})
 
 app.post('/api/tasks', (req, res) => {
-  const schema = Joi.object({
-    text:Joi.string().required()
-  })
 
-  const result = schema.validate(req.body)
-  console.log(result)
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message);
-    return
-  }
+  const { error } =  validateCourse(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
   const newtask = {
     //id to be assigned by database eventually
-    taskID:tasks.length + 1,
-    text:req.body.tasktext,
-    pomodoros:0,
-    completed:false
+    id: tasks.length + 1,
+    text: req.body.text,
+    pomodoros: 0,
+    completed: false
   }
   tasks.push(newtask);
   res.send(newtask);
