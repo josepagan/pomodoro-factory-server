@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const express = require('express');
 const router = express.Router();
 
@@ -9,6 +10,13 @@ const tasks = [
     completed: false
   }
 ];
+
+const validateCourse = (body) => {
+  const schema = Joi.object({
+    text: Joi.string().required()
+  })
+  return schema.validate(body)
+}
 
 router.get('/', (req, res) => {
   res.send(tasks)
