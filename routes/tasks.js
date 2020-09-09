@@ -1,17 +1,51 @@
+const mongoose = require('mongoose');
 const Joi = require('joi');
 const express = require('express');
 const router = express.Router();
 
-const tasks = [
-  {
-    id: 1,
-    text:"create proper structure",
-    pomodoros: 2,
-    completed: false
-  }
-];
 
-const validateCourse = (body) => {
+const taskSchema = new mongoose.Schema({
+  text: {
+    type: String,
+    required: true
+  },
+  pomodorosCount:{
+    type: Number,
+    required: true,
+    defaut: 0
+  },
+  completed: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  date: { type: Date, defaut: Date.now() } 
+})
+
+const taskListSchema = new mongoose.Schema({
+  name: String,
+  tasks : [ taskSchema ]
+})
+
+const Tasklist = mongoose.model('Tasklist', taskListSchema)
+
+async function createTaskList(name){
+  const taskList = await new Tasklist({
+    name,
+    tasks: []
+  })
+  taskList.save();
+}
+
+async function addTask(tasklistId, text) {
+  const tasklist = await Tasklist.findById(tasklistId);
+  tasklist.tasks.push(new Task({text}))
+  
+}
+
+// createTaskList("first tasklist");
+
+const validateTask = (body) => {
   const schema = Joi.object({
     text: Joi.string().required()
   })
@@ -31,17 +65,17 @@ router.get('/:id', (req,res) => {
 router.put('/:id', (req,res) => {
   const task = tasks.find(t => t.id === parseInt( req.params.id ))
 
-  const { error } =  validateCourse(req.body);
+  const { error } =  validateTask(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   task.text = req.body.text;
-  
+
   res.send(task || "task not found")
 })
 
 router.post('/', (req, res) => {
 
-  const { error } =  validateCourse(req.body);
+  const { error } =  validateTask(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const newtask = {
@@ -61,7 +95,7 @@ router.delete('/:id', (req,res) => {
   const taskIndex = tasks.findIndex(t => t.id === parseInt(req.params.id))
   //deleting
   if (taskIndex !== -1 ) {
-   const deleted =  tasks.splice(taskIndex, 1)
+    const deleted =  tasks.splice(taskIndex, 1)
     res.send(deleted)
   } else {
     res.send('could not find tasks with that ID')
