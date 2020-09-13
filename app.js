@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const app = express();
-const tasks = require('./routes/tasks');
+const taskLists = require('./routes/taskLists');
 const home = require('./routes/home');
 const mongoose = require('mongoose');
 
@@ -24,7 +24,7 @@ mongoose.connect(uri, mongoOptions)
 
 
 app.use('/',home);
-app.use('/api/tasks',tasks);
+app.use('/api/taskLists',taskLists);
 
 
 

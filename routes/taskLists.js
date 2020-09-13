@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const express = require('express');
 const router = express.Router();
-
+const tasks = ['tasks']
 
 const taskSchema = new mongoose.Schema({
   text: {
@@ -12,7 +12,7 @@ const taskSchema = new mongoose.Schema({
   pomodorosCount:{
     type: Number,
     required: true,
-    defaut: 0
+    default: 0
   },
   completed: {
     type: Boolean,
@@ -28,21 +28,24 @@ const taskListSchema = new mongoose.Schema({
 })
 
 const Tasklist = mongoose.model('Tasklist', taskListSchema)
+const Task = mongoose.model('Task', taskSchema)
 
 async function createTaskList(name){
-  const taskList = await new Tasklist({
+  const taskList = new Tasklist({
     name,
     tasks: []
   })
-  taskList.save();
+  await taskList.save();
 }
 
 async function addTask(tasklistId, text) {
   const tasklist = await Tasklist.findById(tasklistId);
-  tasklist.tasks.push(new Task({text}))
-  
+  const task = new Task({text: text});
+  tasklist.tasks.push(task);
+  await tasklist.save();
 }
-
+// addTask('5f58c42e7045957e4340808e', "ir a hacer caca")
+// addTask('5f58c42e7045957e4340808e', "go to see helen")
 // createTaskList("first tasklist");
 
 const validateTask = (body) => {
@@ -52,8 +55,9 @@ const validateTask = (body) => {
   return schema.validate(body)
 }
 
-router.get('/', (req, res) => {
-  res.send(tasks)
+router.get('/', async (req, res) => {
+  const result = await Tasklist.find()
+  res.send(result)
 })
 
 router.get('/:id', (req,res) => {
