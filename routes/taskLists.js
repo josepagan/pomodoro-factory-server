@@ -1,3 +1,5 @@
+// to do, I must import task from task model , otherwise it wont work
+
 const mongoose = require('mongoose');
 const Joi = require('joi');
 const express = require('express');
@@ -44,8 +46,8 @@ async function addTask(tasklistId, text) {
   tasklist.tasks.push(task);
   await tasklist.save();
 }
-// addTask('5f58c42e7045957e4340808e', "ir a hacer caca")
-// addTask('5f58c42e7045957e4340808e', "go to see helen")
+addTask('5f58c42e7045957e4340808e', "ir a hacer caca")
+addTask('5f58c42e7045957e4340808e', "go to see helen")
 // createTaskList("first tasklist");
 
 const validateTask = (body) => {
