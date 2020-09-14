@@ -1,36 +1,7 @@
-// to do, I must import task from task model , otherwise it wont work
-
-const mongoose = require('mongoose');
-const Joi = require('joi');
 const express = require('express');
 const router = express.Router();
-const tasks = ['tasks']
-
-const taskSchema = new mongoose.Schema({
-  text: {
-    type: String,
-    required: true
-  },
-  pomodorosCount:{
-    type: Number,
-    required: true,
-    default: 0
-  },
-  completed: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  date: { type: Date, defaut: Date.now() } 
-})
-
-const taskListSchema = new mongoose.Schema({
-  name: String,
-  tasks : [ taskSchema ]
-})
-
-const Tasklist = mongoose.model('Tasklist', taskListSchema)
-const Task = mongoose.model('Task', taskSchema)
+const Task = require('../models/task');
+const Tasklist = require('../models/taskList');
 
 async function createTaskList(name){
   const taskList = new Tasklist({
@@ -46,16 +17,11 @@ async function addTask(tasklistId, text) {
   tasklist.tasks.push(task);
   await tasklist.save();
 }
-addTask('5f58c42e7045957e4340808e', "ir a hacer caca")
-addTask('5f58c42e7045957e4340808e', "go to see helen")
-// createTaskList("first tasklist");
+// addTask('5f5f9a38065eb405035c4cf7', "ir a hacer caca")
+// addTask('5f5f9a38065eb405035c4cf7', "go to see helen")
+// createTaskList("second tasklist");
 
-const validateTask = (body) => {
-  const schema = Joi.object({
-    text: Joi.string().required()
-  })
-  return schema.validate(body)
-}
+
 
 router.get('/', async (req, res) => {
   const result = await Tasklist.find()

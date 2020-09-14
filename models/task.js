@@ -19,6 +19,13 @@ const taskSchema = new mongoose.Schema({
     date: { type: Date, defaut: Date.now() } 
   })
 
+  const validateTask = (body) => {
+    const schema = Joi.object({
+      text: Joi.string().required()
+    })
+    return schema.validate(body)
+  }
+
 const Task = mongoose.model('Task', taskSchema)
 
 module.exports.taskSchema = taskSchema

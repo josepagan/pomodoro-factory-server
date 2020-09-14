@@ -5,12 +5,14 @@ const app = express();
 const taskLists = require('./routes/taskLists');
 const home = require('./routes/home');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 app.set('view engine','pug');
 app.use(express.static('public'));
 app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
+app.use(cors());
 
 require('dotenv').config();
 const port = process.env.PORT;
