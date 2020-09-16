@@ -23,11 +23,7 @@ mongoose.connect(uri, mongoOptions)
   .then(() => console.log('Connected to mongodb'))
   .catch(err => console.error('Couldnt connect to mongodb', err));
 
-
-
 app.use('/',home);
 app.use('/api/taskLists',taskLists);
-
-
 
 app.listen(port, () => console.log(`App listening at ${port}`))

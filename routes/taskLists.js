@@ -43,8 +43,9 @@ router.put('/:id', (req,res) => {
   task.text = req.body.text;
 
   res.send(task || "task not found")
-})
+});
 
+//must integrate this with database
 router.post('/', (req, res) => {
 
   const { error } =  validateTask(req.body);
