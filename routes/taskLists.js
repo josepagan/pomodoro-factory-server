@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/task');
-const Tasklist = require('../models/taskList');
+const { Task } = require('../models/task');
+const TaskList = require('../models/taskList');
 
 async function createTaskList(name){
-  const taskList = new Tasklist({
+  const taskList = new TaskList({
     name,
     tasks: []
   })
@@ -12,19 +12,19 @@ async function createTaskList(name){
 }
 
 async function addTask(tasklistId, text) {
-  const tasklist = await Tasklist.findById(tasklistId);
+  const tasklist = await TaskList.findById(tasklistId);
   const task = new Task({text: text});
   tasklist.tasks.push(task);
   await tasklist.save();
 }
-// addTask('5f5f9a38065eb405035c4cf7', "ir a hacer caca")
-// addTask('5f5f9a38065eb405035c4cf7', "go to see helen")
-// createTaskList("second tasklist");
+// createTaskList("third tasklist");
+// addTask('5f62055db5aef55386b428fb', "ir a hacer caca")
+// addTask('5f62055db5aef55386b428fb', "go to see helen")
 
 
 
 router.get('/', async (req, res) => {
-  const result = await Tasklist.find()
+  const result = await TaskList.find();
   res.send(result)
 })
 

@@ -4,9 +4,10 @@ const Joi = require('joi');
 const taskSchema = new mongoose.Schema({
     text: {
       type: String,
-      required: true
+      required: true,
+      default: "change my name"
     },
-    pomodorosCount:{
+    pomodorosCount: {
       type: Number,
       required: true,
       default: 0
@@ -17,6 +18,9 @@ const taskSchema = new mongoose.Schema({
       default: false
     },
     date: { type: Date, defaut: Date.now() } 
+      // i wonder if I can use schemas in a recursive way, like
+      // innerTaskLists: [ taskListSchema ]
+
   })
 
   const validateTask = (body) => {
@@ -27,6 +31,9 @@ const taskSchema = new mongoose.Schema({
   }
 
 const Task = mongoose.model('Task', taskSchema)
+
+// const bbqtask = new Task()
+// console.log(bbqtask)
 
 module.exports.taskSchema = taskSchema
 module.exports.Task = Task
