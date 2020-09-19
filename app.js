@@ -6,6 +6,7 @@ const taskLists = require('./routes/taskLists');
 const home = require('./routes/home');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 app.set('view engine','pug');
 app.use(express.static('public'));
@@ -13,11 +14,12 @@ app.use(helmet());
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json())
 
 require('dotenv').config();
 const port = process.env.PORT;
 const uri = process.env.MONGO_URI;
-const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 mongoose.connect(uri, mongoOptions)
   .then(() => console.log('Connected to mongodb'))

@@ -11,11 +11,15 @@ async function createTaskList(name){
   await taskList.save();
 }
 
+//TODO add error handling here too...
+//TODO addTask must return an error or the saved document so we know it is working properly
+
 async function addTask(tasklistId, text) {
   const tasklist = await TaskList.findById(tasklistId);
   const task = new Task({text: text});
   tasklist.tasks.push(task);
   await tasklist.save();
+  return task
 }
 // createTaskList("third tasklist");
 // addTask('5f62055db5aef55386b428fb', "ir a hacer caca")
@@ -46,20 +50,19 @@ router.put('/:id', (req,res) => {
 });
 
 //must integrate this with database
-router.post('/', (req, res) => {
-
-  const { error } =  validateTask(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const newtask = {
-    //id to be assigned by database eventually
-    id: tasks.length + 1,
-    text: req.body.text,
-    pomodoros: 0,
-    completed: false
-  }
-  tasks.push(newtask);
-  res.send(newtask);
+router.post('/', async (req, res) => {
+//TODO implement validation 
+  // const { error } =  validateTask(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
+  // console.log(req.body);
+  const { _id, text } = req.body;
+  // console.log(_id, text);
+ const returned =  await addTask(_id, text);
+ console.log('returnded!!',returned)
+  //TODO i must return a document to make sure everything is ok
+  res.send(returned);
+//
+  
 });
 
 router.delete('/:id', (req,res) => {

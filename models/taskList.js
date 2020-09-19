@@ -6,8 +6,6 @@ const taskListSchema = new mongoose.Schema({
   name: String,
   tags: [String],
   tasks: [taskSchema],
-  // i wonder if I can use schemas in a recursive way, like
-  innerTaskLists: [ taskListSchema ]
 });
 
 const Tasklist = mongoose.model('Tasklist', taskListSchema);
