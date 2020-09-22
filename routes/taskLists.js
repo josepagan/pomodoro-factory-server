@@ -59,7 +59,6 @@ router.post('/', async (req, res) => {
   // console.log(_id, text);
  const returned =  await addTask(_id, text);
  console.log('returnded!!',returned)
-  //TODO i must return a document to make sure everything is ok
   res.send(returned);
 //
   
