@@ -11,3 +11,4 @@ const taskListSchema = new mongoose.Schema({
 const Tasklist = mongoose.model('Tasklist', taskListSchema);
 
 module.exports = Tasklist
+module.exports = taskListSchema

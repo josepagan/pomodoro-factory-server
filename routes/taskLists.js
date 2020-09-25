@@ -25,11 +25,14 @@ async function addTask(tasklistId, text) {
 // addTask('5f62055db5aef55386b428fb', "ir a hacer caca")
 // addTask('5f62055db5aef55386b428fb', "go to see helen")
 
+async function removeTask(taskId) {
+  //TODO finish this shit!!!
+}
 
 
 router.get('/', async (req, res) => {
   const result = await TaskList.find();
-  res.send(result)
+  res.send(result);
 })
 
 router.get('/:id', (req,res) => {
