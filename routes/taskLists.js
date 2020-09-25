@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Task } = require('../models/task');
-const TaskList = require('../models/taskList');
+const {TaskList} = require('../models/taskList');
 
 async function createTaskList(name){
   const taskList = new TaskList({
@@ -21,7 +21,7 @@ async function addTask(tasklistId, text) {
   await tasklist.save();
   return task
 }
-// createTaskList("third tasklist");
+createTaskList("third tasklist");
 // addTask('5f62055db5aef55386b428fb', "ir a hacer caca")
 // addTask('5f62055db5aef55386b428fb', "go to see helen")
 

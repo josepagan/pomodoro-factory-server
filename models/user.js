@@ -10,4 +10,7 @@ const userSchema = new mongoose.Schema({
   
   const User = mongoose.model('User', userSchema);
   
+  console.log('FUCK')
   module.exports = User
+
+  //TODO try to run an user, to se what the fUck is going on with this.
