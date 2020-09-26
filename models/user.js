@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const { taskListSchema } = require('./taskList');
 
 const userSchema = new mongoose.Schema({

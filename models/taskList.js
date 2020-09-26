@@ -6,6 +6,8 @@ const taskListSchema = new mongoose.Schema({
   name: String,
   tags: [String],
   tasks: [taskSchema],
+  // innerTasklist: taskListSchema
+  // naybe create a reference here
 });
 
 const TaskList = mongoose.model('TaskList', taskListSchema);

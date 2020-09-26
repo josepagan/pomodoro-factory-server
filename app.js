@@ -25,16 +25,6 @@ mongoose.connect(uri, mongoOptions)
   .then(() => console.log('Connected to mongodb'))
   .catch(err => console.error('Couldnt connect to mongodb', err));
 
-
-
-const kittySchema = new mongoose.Schema({
-  name: String
-});
-const Kitten = mongoose.model('Kitten', kittySchema);
-const silence = new Kitten({ name: 'Silence' });
-console.log(silence)
-silence.save().then(console.log('all OK'))
-
 app.use('/', home);
 app.use('/api/taskLists', taskLists);
 
