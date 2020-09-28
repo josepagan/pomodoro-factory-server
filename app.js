@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const app = express();
 const taskLists = require('./routes/taskLists');
+const tasks = require('./routes/tasks')
 const home = require('./routes/home');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -27,5 +28,6 @@ mongoose.connect(uri, mongoOptions)
 
 app.use('/', home);
 app.use('/api/taskLists', taskLists);
+app.use('/api/tasks', tasks);
 
 app.listen(port, () => console.log(`App listening at ${port}`))
