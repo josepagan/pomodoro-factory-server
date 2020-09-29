@@ -37,29 +37,45 @@ router.get('/', async (req, res) => {
   res.send(result);
 })
 
+const findIt = async () => {
+
+}
+
+router.put('/', async (req, res) => {
+  const { _id, newText, type } = req.body
+  if (type === "TaskList") {
+    const found = await TaskList.findById(_id)
+    found.name = newText
+    const result = await found.save()
+    res.send("OK");
+    //TODO  decided what to respond to the client.. maybe only the text with the updated name?
+  }
+
+})
 
 
 //this put request only changes the name, what if we have to change something else
-router.put('/:id', (req, res) => {
-  const task = tasks.find(t => t.id === parseInt(req.params.id))
+// router.put('/:id', (req, res) => {
+//   const task = tasks.find(t => t.id === parseInt(req.params.id))
 
-  const { error } = validateTask(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+//   const { error } = validateTask(req.body);
+//   if (error) return res.status(400).send(error.details[0].message);
 
-  task.text = req.body.text;
+//   task.text = req.body.text;
 
-  res.send(task || "task not found")
-});
+//   res.send(task || "task not found")
+// });
 
 //must integrate this with database
 router.post('/', async (req, res) => {
+  console.log('triggered!!!')
   //TODO implement validation 
   // const { error } =  validateTask(req.body);
   // if (error) return res.status(400).send(error.details[0].message);
   // console.log(req.body);
-  const { text } = req.body;
+  // const { text } = req.body;
   // console.log(_id, text);
-  const returned = await createTaskList(text);
+  const returned = await createTaskList();
   console.log('new task list!!', returned)
   res.send(returned);
 
